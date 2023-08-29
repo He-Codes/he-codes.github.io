@@ -97,26 +97,19 @@
             <h4>Seconds</h4>
           </div>
         </div>
-
+        
+        <!-- Subscription form  -->
         <div class="subscribe">
           <h4>Subscribe now to get the latest updates!</h4>
-          <form
-            action="#"
-            method="post"
-            role="form"
-            class="php-email-form"
-          >
+          <form id="subscribe-form" class="php-email-form">
             <div class="subscribe-form">
-              <input type="email" name="email" /><input
-                type="submit"
-                value="Subscribe"
-              />
+              <input type="email" id="email" name="email" required />
+              <input type="submit" id="subscribe-btn" value="Subscribe" />
             </div>
             <div class="mt-2">
               <div class="loading">Loading</div>
-              <div class="error-message"></div>
               <div class="sent-message">
-                Your notification request was sent. Thank you!
+                Thank you for subscribing to our updates!
               </div>
             </div>
           </form>
@@ -219,7 +212,7 @@
           <div class="row justify-content-center">
             <div class="col-lg-10">
               <form
-                action="#"
+                action="forms/contact.php"
                 method="post"
                 role="form"
                 class="php-email-form"
@@ -307,5 +300,47 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function () {
+        // Initialize EmailJS with your user ID
+        emailjs.init(secrets.EMAILJS_USER_ID);
+
+        // Function to handle the form submission
+        document
+          .getElementById("subscribe-form")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Show loading message
+            document.querySelector(".loading").style.display = "block";
+
+            // Get the user's email
+            const userEmail = document.getElementById("email").value;
+
+            // Define the email parameters
+            const emailParams = {
+              from_email: userEmail,
+              subject: "New subscriber from He Codes",
+              message: userEmail + " has subscribed to He Codes!",
+            };
+
+            // Send the email
+            emailjs
+              .send(secrets.SERVICE_ID, secrets.EMAILJS_TEMPLATE_ID, emailParams)
+              .then(function () {
+                // Hide loading message and show success message
+                document.querySelector(".loading").style.display = "none";
+                document.querySelector(".sent-message").style.display = "block";
+              })
+              .catch(function (error) {
+                // Hide loading message and show error message
+                document.querySelector(".loading").style.display = "none";
+                document.querySelector(".error-message").innerHTML =
+                  "An error occurred. Please try again later.";
+              });
+          });
+      })();
+    </script>
   </body>
 </html>

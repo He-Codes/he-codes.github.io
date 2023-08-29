@@ -304,7 +304,7 @@
     <script type="text/javascript">
       (function () {
         // Initialize EmailJS with your user ID
-        emailjs.init(secrets.EMAILJS_USER_ID);
+        emailjs.init(process.env.EMAILJS_USER_ID);
 
         // Function to handle the form submission
         document
@@ -327,7 +327,7 @@
 
             // Send the email
             emailjs
-              .send(secrets.SERVICE_ID, secrets.EMAILJS_TEMPLATE_ID, emailParams)
+              .send(process.env.SERVICE_ID, process.env.EMAILJS_TEMPLATE_ID, emailParams)
               .then(function () {
                 // Hide loading message and show success message
                 document.querySelector(".loading").style.display = "none";
